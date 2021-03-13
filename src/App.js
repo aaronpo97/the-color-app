@@ -1,83 +1,85 @@
 import { useState, useEffect } from 'react';
-import Table from './Table';
-import TableInfo from './TableInfo';
+
 import Color from './Color';
+import { Container, Segment, Button, Header, Table } from 'semantic-ui-react';
+import RenderSaved from './RenderSaved';
 
-const getBackgroundColor = () => {
-	const makeRandColorValues = () => Math.floor(Math.random() * 255);
-	const red = makeRandColorValues();
-	const green = makeRandColorValues();
-	const blue = makeRandColorValues();
+const getRandomColor = () => {
+	const red = Math.floor(Math.random() * 255);
+	const green = Math.floor(Math.random() * 255);
+	const blue = Math.floor(Math.random() * 255);
 
-	const backgroundColor = new Color(red, green, blue);
-
-	return backgroundColor;
-};
-
-const ColorSquare = props => {
-	return <div style={{ backgroundColor: props.color }} className={props.className}></div>;
+	return new Color(red, green, blue);
 };
 
 const App = () => {
-	const [currentToggledColor, setToggledColor] = useState(new Color(0, 0, 0));
-	const [backgroundColor, setBackgroundColor] = useState(currentToggledColor.rgbString());
+	const [toggledColor, setToggledColor] = useState(new Color(0, 0, 0));
+	const [backgroundColor, setBackgroundColor] = useState(toggledColor.rgbString());
 	const [savedColors, setSavedColors] = useState([]);
 
 	useEffect(() => {
-		setBackgroundColor(currentToggledColor.rgbString());
-	}, [currentToggledColor]);
-	useEffect(() => (document.body.style.backgroundColor = backgroundColor), [backgroundColor]);
+		setBackgroundColor(toggledColor.rgbString());
+	}, [toggledColor]);
+	useEffect(() => {
+		document.body.style.backgroundColor = backgroundColor;
+	}, [backgroundColor]);
 
 	return (
 		<>
-			<div className="ui raised very padded text container segment" style={{ marginTop: '2em' }}>
-				<h1>The Random Color App!</h1>
+			<Container text>
+				<Segment raised padded style={{ marginTop: '100px' }}>
+					<Header as='h1' size='huge'>
+						The Random Colour App by ayerble
+					</Header>
+				</Segment>
 
-				<h2>Color Info:</h2>
+				<Segment raised padded>
+					<Header as='h2' size='medium'>
+						Colour Info
+					</Header>
 
-				<Table>
-					<TableInfo header="RGB" info={currentToggledColor.rgbString()} />
-					<TableInfo header="HEX" info={currentToggledColor.hex()} />
-					<TableInfo header="HSL" info={currentToggledColor.hsl()} />
-					<TableInfo header="CMYK" info={currentToggledColor.cmyk()} />
-				</Table>
+					<Table definition>
+						<Table.Body>
+							<Table.Row>
+								<Table.Cell>RGB</Table.Cell>
+								<Table.Cell>{toggledColor.rgbString()}</Table.Cell>
+							</Table.Row>
+							<Table.Row>
+								<Table.Cell>HEX</Table.Cell>
+								<Table.Cell>{toggledColor.hex()}</Table.Cell>
+							</Table.Row>
+							<Table.Row>
+								<Table.Cell>HSL</Table.Cell>
+								<Table.Cell>{toggledColor.hsl()}</Table.Cell>
+							</Table.Row>
+							<Table.Row>
+								<Table.Cell>CMYK</Table.Cell>
+								<Table.Cell>{toggledColor.cmyk()}</Table.Cell>
+							</Table.Row>
+						</Table.Body>
+					</Table>
 
-				<button onClick={() => setToggledColor(getBackgroundColor)} className="ui button">
-					Click me to change the background color!
-				</button>
-				<button onClick={() => setSavedColors([currentToggledColor, ...savedColors])} className="ui button">
-					Save Color!
-				</button>
-			</div>
+					<Button onClick={() => setToggledColor(getRandomColor)}>Click me to change the background color!</Button>
+					<Button
+						onClick={() => {
+							if (savedColors.includes(toggledColor)) {
+								return alert('Color already saved.');
+							}
 
-			<div className="ui raised very padded text container segment" style={{ marginTop: '2em', marginBottom: '2em' }}>
-				<h2>Saved colors</h2>
+							setSavedColors([toggledColor, ...savedColors]);
+						}}>
+						Save color!
+					</Button>
+				</Segment>
 
-				<button className="ui button" onClick={() => setSavedColors([])}>
-					Clear saved colors
-				</button>
-
-				{savedColors.map((color, i) => {
-					return (
-						<div style={{ marginTop: '2em', marginBottom: '2em' }}>
-							<div className="ui grid" key={i}>
-								<div className="ten wide column">
-									<Table>
-										<TableInfo header="RGB" info={color.rgbString()} />
-										<TableInfo header="HEX" info={color.hex()} />
-										<TableInfo header="HSL" info={color.hsl()} />
-										<TableInfo header="CMYK" info={color.cmyk()} />
-									</Table>
-								</div>
-								<ColorSquare color={color.rgbString()} className="six wide column" />
-							</div>
-							<button className="ui button" onClick={() => setToggledColor(color)}>
-								Go back to {color.rgbString()}
-							</button>
-						</div>
-					);
-				})}
-			</div>
+				<Segment raised padded style={{ marginBottom: '100px' }}>
+					<Header size='medium' as='h2'>
+						Saved colours:
+					</Header>
+					<RenderSaved savedColors={savedColors} setToggledColor={setToggledColor} setSavedColors={setSavedColors} />
+					<Button onClick={() => setSavedColors([])}>Clear saved colors</Button>
+				</Segment>
+			</Container>
 		</>
 	);
 };
