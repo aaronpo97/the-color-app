@@ -24,6 +24,21 @@ const App = () => {
 		document.body.style.backgroundColor = backgroundColor;
 	}, [backgroundColor]);
 
+	const savedColorInfo = () => {
+		if (!savedColors.length) return;
+		else {
+			return (
+				<Segment raised padded style={{ marginBottom: '100px' }}>
+					<Header size='medium' as='h2'>
+						Saved colours:
+					</Header>
+					<RenderSaved savedColors={savedColors} setToggledColor={setToggledColor} setSavedColors={setSavedColors} />
+					<Button onClick={() => setSavedColors([])}>Clear saved colors</Button>
+				</Segment>
+			);
+		}
+	};
+
 	return (
 		<>
 			<Container text>
@@ -38,7 +53,7 @@ const App = () => {
 						Colour Info
 					</Header>
 
-					<Table definition>
+					<Table>
 						<Table.Body>
 							<Table.Row>
 								<Table.Cell>RGB</Table.Cell>
@@ -71,14 +86,7 @@ const App = () => {
 						Save color!
 					</Button>
 				</Segment>
-
-				<Segment raised padded style={{ marginBottom: '100px' }}>
-					<Header size='medium' as='h2'>
-						Saved colours:
-					</Header>
-					<RenderSaved savedColors={savedColors} setToggledColor={setToggledColor} setSavedColors={setSavedColors} />
-					<Button onClick={() => setSavedColors([])}>Clear saved colors</Button>
-				</Segment>
+				{savedColorInfo()}
 			</Container>
 		</>
 	);
