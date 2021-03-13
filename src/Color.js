@@ -55,7 +55,7 @@ class RGBColor {
 	}
 
 	cmyk() {
-		return 'hello';
+		return 'i need to implement this lol';
 	}
 }
 
