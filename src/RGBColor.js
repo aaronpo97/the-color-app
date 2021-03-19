@@ -14,7 +14,7 @@ class RGBColor {
 	}
 
 	rgbString() {
-		return `rgb(${this.r}, ${this.g}, ${this.b})`;
+		return `RGB(${this.r}, ${this.g}, ${this.b})`;
 	}
 
 	hsl() {

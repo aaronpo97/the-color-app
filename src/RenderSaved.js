@@ -1,4 +1,4 @@
-import { Button, Divider, Segment, Header } from 'semantic-ui-react';
+import { Button, Divider, Segment, Header, Grid } from 'semantic-ui-react';
 import Table from './Table';
 
 const RenderSaved = (savedColors, setSavedColors, setToggledColor) => {
@@ -25,13 +25,28 @@ const RenderSaved = (savedColors, setSavedColors, setToggledColor) => {
 							]}
 						/>
 
-						<Button onClick={() => setToggledColor(color)}>Go back to {color.rgbString()}</Button>
-						<Button onClick={() => handleDelete(color.rgbString())}>Delete saved colour: {color.rgbString()}</Button>
+						<Grid columns={2} divided>
+							<Grid.Row>
+								<Grid.Column>
+									<Button fluid onClick={() => setToggledColor(color)}>
+										Go back to {color.rgbString()}
+									</Button>
+								</Grid.Column>
+								<Grid.Column>
+									<Button fluid onClick={() => handleDelete(color.rgbString())}>
+										Delete {color.rgbString()}
+									</Button>
+								</Grid.Column>
+							</Grid.Row>
+						</Grid>
+
 						<Divider />
 					</div>
 				);
 			})}
-			<Button onClick={() => setSavedColors([])}>Clear saved colors</Button>
+			<Button fluid onClick={() => setSavedColors([])}>
+				Clear saved colors
+			</Button>
 		</Segment>
 	);
 };

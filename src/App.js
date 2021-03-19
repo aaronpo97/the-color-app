@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import getRandomColor from './Color';
 import RGBColor from './RGBColor';
-import { Container, Segment, Button, Header } from 'semantic-ui-react';
+import { Container, Segment, Button, Header, Grid } from 'semantic-ui-react';
 import RenderSaved from './RenderSaved';
 import Table from './Table';
 
@@ -14,6 +14,12 @@ const App = () => {
 		document.title = `Current Colour: ${toggledColor.hex()}`;
 	}, [toggledColor]);
 
+	const saveColor = () => {
+		if (savedColors.includes(toggledColor)) {
+			return alert('Colour already saved.');
+		}
+		setSavedColors([toggledColor, ...savedColors]);
+	};
 	return (
 		<Container text>
 			<Segment raised padded style={{ marginTop: '100px' }}>
@@ -34,17 +40,20 @@ const App = () => {
 						['CMYK', toggledColor.cmyk()],
 					]}
 				/>
-
-				<Button onClick={() => setToggledColor(getRandomColor)}>Click me to change the background colour!</Button>
-				<Button
-					onClick={() => {
-						if (savedColors.includes(toggledColor)) {
-							return alert('Colour already saved.');
-						}
-						setSavedColors([toggledColor, ...savedColors]);
-					}}>
-					Save colour!
-				</Button>
+				<Grid columns={2} divided>
+					<Grid.Row>
+						<Grid.Column>
+							<Button fluid onClick={() => setToggledColor(getRandomColor)}>
+								Change the background colour!
+							</Button>
+						</Grid.Column>
+						<Grid.Column>
+							<Button fluid onClick={() => saveColor()}>
+								Save colour!
+							</Button>
+						</Grid.Column>
+					</Grid.Row>
+				</Grid>
 			</Segment>
 			{RenderSaved(savedColors, setSavedColors, setToggledColor)}
 		</Container>
