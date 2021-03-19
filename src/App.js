@@ -3,7 +3,7 @@ import getRandomColor from './Color';
 import RGBColor from './RGBColor';
 import { Container, Segment, Button, Header } from 'semantic-ui-react';
 import RenderSaved from './RenderSaved';
-import TableA from './TableA';
+import Table from './Table';
 
 const App = () => {
 	const [toggledColor, setToggledColor] = useState(new RGBColor(0, 0, 0));
@@ -26,7 +26,7 @@ const App = () => {
 					Colour Info
 				</Header>
 
-				<TableA
+				<Table
 					pairs={[
 						['RGB', toggledColor.rgbString()],
 						['HEX', toggledColor.hex()],
@@ -35,18 +35,18 @@ const App = () => {
 					]}
 				/>
 
-				<Button onClick={() => setToggledColor(getRandomColor)}>Click me to change the background color!</Button>
+				<Button onClick={() => setToggledColor(getRandomColor)}>Click me to change the background colour!</Button>
 				<Button
 					onClick={() => {
 						if (savedColors.includes(toggledColor)) {
-							return alert('Color already saved.');
+							return alert('Colour already saved.');
 						}
 						setSavedColors([toggledColor, ...savedColors]);
 					}}>
-					Save color!
+					Save colour!
 				</Button>
 			</Segment>
-			{RenderSaved(savedColors, setSavedColors, toggledColor, setToggledColor)}
+			{RenderSaved(savedColors, setSavedColors, setToggledColor)}
 		</Container>
 	);
 };
