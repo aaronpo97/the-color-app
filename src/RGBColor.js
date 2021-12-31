@@ -6,9 +6,18 @@ class RGBColor {
 	}
 
 	hex() {
-		const hexRed = this.r.toString(16).length === 1 ? '0' + this.r.toString(16) : this.r.toString(16);
-		const hexGreen = this.g.toString(16).length === 1 ? '0' + this.g.toString(16) : this.g.toString(16);
-		const hexBlue = this.b.toString(16).length === 1 ? '0' + this.b.toString(16) : this.b.toString(16);
+		const hexRed =
+			this.r.toString(16).length === 1
+				? '0' + this.r.toString(16)
+				: this.r.toString(16);
+		const hexGreen =
+			this.g.toString(16).length === 1
+				? '0' + this.g.toString(16)
+				: this.g.toString(16);
+		const hexBlue =
+			this.b.toString(16).length === 1
+				? '0' + this.b.toString(16)
+				: this.b.toString(16);
 
 		return `#${hexRed + hexGreen + hexBlue}`.toUpperCase();
 	}
@@ -51,7 +60,9 @@ class RGBColor {
 		const s = calculateSaturation() * 100;
 		const l = ((maxColor + minColor) / 2) * 100;
 
-		return `HSL(${h ? h.toFixed(0) : 0}°, ${s ? s.toFixed(0) : 0}%, ${l ? l.toFixed(0) : 0}%)`;
+		return `HSL(${h ? h.toFixed(0) : 0}°, ${s ? s.toFixed(0) : 0}%, ${
+			l ? l.toFixed(0) : 0
+		}%)`;
 	}
 
 	cmyk() {
@@ -74,7 +85,9 @@ class RGBColor {
 		y = isNaN(y) ? 0 : y;
 		k = isNaN(k) ? 0 : k;
 
-		return `CMYK(${c.toFixed(0)}%, ${m.toFixed(0)}%, ${y.toFixed(0)}%, ${k.toFixed(0)}%)`;
+		return `CMYK(${c.toFixed(0)}%, ${m.toFixed(0)}%, ${y.toFixed(0)}%, ${k.toFixed(
+			0
+		)}%)`;
 	}
 }
 
